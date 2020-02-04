@@ -6,6 +6,7 @@ class Api {
     #currentResult = [];
     #currentSearch = null;
     #currentPage = 1;
+    #getNextPageIsRunning = false;
 
     get currentResult() {
         return this.#currentResult;
@@ -43,20 +44,37 @@ class Api {
      * @return {Promise<Api>|Promise<string>}
      */
     async getNextPage() {
+        if (this.#getNextPageIsRunning) {
+            return;
+        }
         if (!this.#currentSearch) {
+            this.#getNextPageIsRunning = false;
             return Promise.reject('Can not get the next page of nothing!');
         }
+        this.#getNextPageIsRunning = true;
         await axios.get(this.#currentSearch + '&page=' + (++this.#currentPage)).then((response) => {
             if (!response.data.hits) {
+                this.#currentPage--;
+                this.#getNextPageIsRunning = false;
                 throw 'hits key should exist on response.data';
             }
 
-            this.#currentResult = this.#currentResult.concat(response.data.hits);
+            this.#currentResult = this.#currentResult.concat(response.data.hits.filter((hit) => {
+                for (let current of this.#currentResult) {
+                    if (hit.id === current.id) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }))
         }).catch((response) => {
+            this.#getNextPageIsRunning = false;
             this.#currentPage--;
-            return Promise.reject(response.statusText ? response.statusText : response);
+            return Promise.reject(response);
         });
 
+        this.#getNextPageIsRunning = false;
         return Promise.resolve(this);
     }
 }
