@@ -25,8 +25,6 @@
                     'background-image': `url('${this.imageInfo.previewURL}'), url('${defaultImage}')`,
                     'background-size': 'cover',
                     'background-position': 'center',
-                    'transition-property': 'all',
-                    'transition-duration': '1s',
                 }
             },
             thumbnailSize() {

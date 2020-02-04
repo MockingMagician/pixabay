@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header ref="header" id="header" v-bind:background_img="headerBackground" v-on:searchValue="searchValue"/>
+    <Header ref="header" id="header" v-bind:background_img="headerBackground" v-on:searchValue="searchValueDebounced"/>
     <div ref="subHeader" id="subHeader">
       <thumbnail v-bind:key="result.id" v-for="result in currentResult" v-bind:image-info="result"/>
     </div>
@@ -12,8 +12,9 @@
   import HeaderBackground from './assets/galaxy-header.jpg'
   import Api from "./pixabay/api";
   import Thumbnail from "./components/Thumbnail";
+  import _ from 'lodash';
 
-  let api = new Api('15114273-9d732c50c2776ed9da41549b4');
+  let api = new Api(process.env.VUE_APP_PIXABAY_API_KEY);
 
   export default {
     name: 'app',
@@ -30,9 +31,12 @@
     },
     methods: {
       searchValue(value) {
+        if (value === '') {
+          this.currentResult = [];
+          return;
+        }
         api.searchImages(value).then(() => {
           this.currentResult = api.currentResult;
-          window.console.log(api.currentResult);
         })
       },
       adjustSubHeader() {
@@ -47,6 +51,9 @@
           })
         }
       },
+    },
+    created() {
+      this.searchValueDebounced = _.debounce(this.searchValue, 300)
     },
     mounted() {
       this.adjustSubHeader();
