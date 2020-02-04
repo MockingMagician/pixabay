@@ -81,7 +81,12 @@
 <style scoped>
     #container {
         display: inline-block;
-        margin: 0.5rem 0;
+        margin: 0.5rem 0.25rem;
+    }
+
+    #container:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
     }
 
     a, a:hover, a:active {

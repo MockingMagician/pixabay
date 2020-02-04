@@ -43,7 +43,7 @@
           api.getNextPage().then(() => {
             this.currentResult = api.currentResult;
           }).catch((response) => {
-            console.log(response);
+            window.console.log(response);
           })
         }
       },
@@ -79,5 +79,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+  }
+  #subHeader::after {
+    content: "";
+    flex: auto;
   }
 </style>
