@@ -1,12 +1,19 @@
 <template>
     <div id="container">
         <a v-bind:href="imageInfo.largeImageURL" target="_blank">
-            <div v-bind:style="[thumbnailBackground, thumbnailSize]"></div>
+            <div v-bind:style="[thumbnailBackground, thumbnailSize]">
+                <div id="info">
+                    <span><fa icon="eye"/> {{imageInfo.views}}</span>
+                    <span><fa icon="heart"/> {{imageInfo.likes}}</span>
+                    <span><fa icon="tags"/> {{imageInfo.tags}}</span>
+                </div>
+            </div>
         </a>
     </div>
 </template>
 
 <script>
+    import defaultImage from '../assets/images-loading.png'
     export default {
         name: "Thumbnail",
         props: {
@@ -15,9 +22,11 @@
         computed: {
             thumbnailBackground() {
                 return {
-                    'background-image': `url('${this.imageInfo.previewURL}')`,
+                    'background-image': `url('${this.imageInfo.previewURL}'), url('${defaultImage}')`,
                     'background-size': 'cover',
                     'background-position': 'center',
+                    'transition-property': 'all',
+                    'transition-duration': '1s',
                 }
             },
             thumbnailSize() {
@@ -53,24 +62,24 @@
                 let ratio = this.imageInfo.imageWidth / this.imageInfo.imageHeight;
                 if (ratio < 1.1 && ratio > 0.9) {
                     return {
-                        width: '10rem',
+                        'min-width': '10rem',
                         height: height,
                     }
                 }
                 if (ratio >= 1.1 && ratio < 1.45) {
                     return {
-                        width: '13.33rem',
+                        'min-width': '13.33rem',
                         height: height,
                     }
                 }
                 if (ratio >= 1.45) {
                     return {
-                        width: '17.8rem',
+                        'min-width': '17.8rem',
                         height: height,
                     }
                 }
                 return {
-                    width: '7rem',
+                    'min-width': '7rem',
                     height: height,
                 }
             }
@@ -80,16 +89,43 @@
 
 <style scoped>
     #container {
+        position: relative;
         display: inline-block;
-        margin: 0.5rem 0.25rem;
+        margin: 0.25rem;
     }
 
     #container:hover {
-        transform: scale(1.05);
+        transform: scale(1.025);
+        transition-property: all;
+        transition-duration: 250ms;
         opacity: 0.9;
     }
 
     a, a:hover, a:active {
         text-decoration: none;
+    }
+
+    #info {
+        opacity: 0;
+        width: 100%;
+        box-sizing: border-box;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 0.5rem;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        font-size: 0.75rem;
+        z-index: 10;
+        transition: opacity;
+        transition-duration: 250ms;
+    }
+
+    #info > span {
+        margin: 0 1rem 0 0;
+    }
+
+    #container:hover #info {
+        opacity: 1;
     }
 </style>

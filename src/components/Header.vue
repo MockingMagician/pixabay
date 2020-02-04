@@ -43,7 +43,8 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw;
+        width: 100%;
+        z-index: 100;
     }
 
     h1 {
@@ -51,16 +52,19 @@
     }
 
     #search-container {
-        padding: 0 5rem;
-        margin: 2rem 0;
+        padding: 0 2rem;
+        margin: 2rem 4rem;
+        background-color: whitesmoke;
+        border-radius: 0.5rem;
     }
 
-    input {
-        border-radius: 0.5rem;
+    input, input:focus {
+        background-color: transparent;
+        outline: none;
+        border: none;
         width: 100%;
         height: 2rem;
         font-size: 1.5rem;
-        background-color: lightgray;
-        padding: 0 1rem;
+        /*padding: 0 1rem;*/
     }
 </style>

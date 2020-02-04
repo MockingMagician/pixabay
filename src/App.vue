@@ -61,6 +61,9 @@
 </script>
 
 <style>
+  body {
+    background-color: lightgray;
+  }
   #app {
     font-family: 'Roboto', 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -78,10 +81,14 @@
   #subHeader {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
   }
   #subHeader::after {
     content: "";
     flex: auto;
+    flex-grow: 99;
+  }
+
+  #subHeader > div {
+    flex-grow: 1;
   }
 </style>
