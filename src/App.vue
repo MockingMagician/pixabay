@@ -2,7 +2,11 @@
   <div id="app">
     <Header ref="header" id="header" v-bind:background_img="headerBackground" v-on:searchValue="searchValueDebounced"/>
     <div ref="subHeader" id="subHeader">
-      <thumbnail v-bind:key="result.id" v-for="result in currentResult" v-bind:image-info="result"/>
+      <thumbnail v-bind:key="result.id" v-for="result in currentResult"
+                 v-bind:image-info="result"
+                 v-bind:thumbnail-height="thumbnailHeight"
+                 v-bind:thumbnail-height-unity="thumbnailHeightUnity"
+      />
     </div>
   </div>
 </template>
@@ -27,6 +31,8 @@
         headerBackground: HeaderBackground,
         currentResult: [],
         subHeaderMarginTop: 0,
+        thumbnailHeightUnity: 'rem',
+        thumbnailHeight: 10,
       }
     },
     methods: {

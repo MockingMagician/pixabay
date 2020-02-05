@@ -18,6 +18,8 @@
         name: "Thumbnail",
         props: {
             imageInfo: Object,
+            thumbnailHeight: Number,
+            thumbnailHeightUnity: String,
         },
         computed: {
             thumbnailBackground() {
@@ -28,7 +30,13 @@
                 }
             },
             thumbnailSize() {
-                return this.thumbnailSizeCompute();
+                let height = this.thumbnailHeight + this.thumbnailHeightUnity;
+                let width = this.imageInfo.imageWidth * this.thumbnailHeight / this.imageInfo.imageHeight;
+
+                return {
+                    'min-width': width,
+                    height: height,
+                }
             },
             // largeImageURL: this.imageInfo.largeImageURL,
             // webformatHeight: this.imageInfo.webformatHeight,
@@ -54,32 +62,10 @@
             // previewURL: this.imageInfo.previewURL,
         },
         methods: {
-            thumbnailSizeCompute() {
-                //16/9 ou 4/3 ou Carré ou portrait 21/30
-                let height = '10rem';
-                let ratio = this.imageInfo.imageWidth / this.imageInfo.imageHeight;
-                if (ratio < 1.1 && ratio > 0.9) {
-                    return {
-                        'min-width': '10rem',
-                        height: height,
-                    }
-                }
-                if (ratio >= 1.1 && ratio < 1.45) {
-                    return {
-                        'min-width': '13.33rem',
-                        height: height,
-                    }
-                }
-                if (ratio >= 1.45) {
-                    return {
-                        'min-width': '17.8rem',
-                        height: height,
-                    }
-                }
-                return {
-                    'min-width': '7rem',
-                    height: height,
-                }
+        },
+        created() {
+            if (!this.imageInfo || !this.thumbnailHeight || !this.thumbnailHeightUnity) {
+                throw new Error('All thumbnail props must be defined');
             }
         }
     }
