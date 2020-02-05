@@ -21,6 +21,7 @@
                 return {
                     'background-image': `url('${this.background_img}')`,
                     'background-size': 'cover',
+                    'background-position': 'center',
                 }
             },
             searchValue: {
