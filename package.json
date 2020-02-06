@@ -14,8 +14,10 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "axios": "^0.19.2",
     "core-js": "^2.6.5",
+    "jquery": "^3.4.1",
     "lodash": "^4.17.15",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vuejs-logger": "1.5.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",

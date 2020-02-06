@@ -25,13 +25,11 @@
             thumbnailBackground() {
                 return {
                     'background-image': `url('${this.imageInfo.previewURL}'), url('${defaultImage}')`,
-                    'background-size': 'cover',
-                    'background-position': 'center',
                 }
             },
             thumbnailSize() {
                 let height = this.thumbnailHeight + this.thumbnailHeightUnity;
-                let width = this.imageInfo.imageWidth * this.thumbnailHeight / this.imageInfo.imageHeight;
+                let width = (this.imageInfo.imageWidth * this.thumbnailHeight / this.imageInfo.imageHeight) + this.thumbnailHeightUnity;
 
                 return {
                     'min-width': width,
@@ -87,6 +85,11 @@
 
     a, a:hover, a:active {
         text-decoration: none;
+    }
+
+    #container > a > div {
+        background-size: cover;
+        background-position: center;
     }
 
     #info {

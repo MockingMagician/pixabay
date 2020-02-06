@@ -20,8 +20,6 @@
                 }
                 return {
                     'background-image': `url('${this.background_img}')`,
-                    'background-size': 'cover',
-                    'background-position': 'center',
                 }
             },
             searchValue: {
@@ -40,6 +38,8 @@
     #header {
         min-height: 10rem;
         background-color: #0d0d0d;
+        background-size: cover;
+        background-position: center;
         color: whitesmoke;
         position: fixed;
         top: 0;
