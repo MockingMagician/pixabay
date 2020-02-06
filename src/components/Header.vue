@@ -48,6 +48,13 @@
         z-index: 100;
     }
 
+    #header::after {
+        content: "";
+        display: block;
+        background-color: lightgray;
+        height: 0.5rem;
+    }
+
     h1 {
         text-transform: uppercase;
     }

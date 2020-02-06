@@ -14,9 +14,10 @@
 <script>
     import Header from "./components/Header";
     import HeaderBackground from './assets/galaxy-header.jpg'
-    import {Api, OutOfRangeError, CorruptedDataError, UnknownError} from "./pixabay/api";
+    import {Api, UnknownError} from "./pixabay/api";
     import Thumbnail from "./components/Thumbnail";
     import _ from 'lodash';
+    import scrollBarHelper from './helpers/scrollBarHelper'
 
     let api = new Api(process.env.VUE_APP_PIXABAY_API_KEY);
 
@@ -45,20 +46,21 @@
                 }
                 api.searchImages(value).then(() => {
                     this.currentResult = api.currentResult;
+                    setTimeout(this.fillPageAtSearchValue, 500);
                 }).catch((error) => {
                     //TODO tell to user no image found
                     if (error instanceof UnknownError) {
-                        //TODO log it for debug
                         this.$log.debug(error);
                     }
                 })
             },
             fillPageAtSearchValue() {
-                if (!this.hasScrollbar() && api.hasNextPage) {
+                if (!scrollBarHelper.hasVerticalScrollbar() && api.hasNextPage) {
                     api.getNextPage().then(() => {
                         this.currentResult = api.currentResult;
-                        this.fillPageAtSearchValue();
-                    }).catch(() => {
+                        setTimeout(this.fillPageAtSearchValue, 500);
+                    }).catch((error) => {
+                        this.$log.debug(error);
                     })
                 }
             },
@@ -69,52 +71,25 @@
                 if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                     api.getNextPage().then(() => {
                         this.currentResult = api.currentResult;
-                    }).catch((response) => {
-                        window.console.log(response);
+                    }).catch((error) => {
+                        //TODO tell to user no next page
+                        this.$log.debug(error);
                     })
                 }
             },
-            hasScrollbar() {
-                if (typeof window.innerWidth === 'number') {
-                    return window.innerWidth > document.documentElement.clientWidth;
-                }
-
-                let rootElem = document.documentElement || document.body;
-                let overflowStyle;
-
-                if (typeof rootElem.currentStyle !== 'undefined') {
-                    overflowStyle = rootElem.currentStyle.overflow;
-                }
-
-                overflowStyle = overflowStyle || window.getComputedStyle(rootElem, '').overflow;
-
-                let overflowYStyle;
-
-                if (typeof rootElem.currentStyle !== 'undefined') {
-                    overflowYStyle = rootElem.currentStyle.overflowY;
-                }
-
-                overflowYStyle = overflowYStyle || window.getComputedStyle(rootElem, '').overflowY;
-
-                let contentOverflows = rootElem.scrollHeight > rootElem.clientHeight;
-                let overflowShown    = /^(visible|auto)$/.test(overflowStyle) || /^(visible|auto)$/.test(overflowYStyle);
-                let alwaysShowScroll = overflowStyle === 'scroll' || overflowYStyle === 'scroll';
-
-                return (contentOverflows && overflowShown) || (alwaysShowScroll);
-            },
         },
         created() {
-            this.searchValueDebounced = _.debounce(this.searchValue, 300)
-            this.loadNewImageAtScrollEndDebounced = _.debounce(this.loadNewImageAtScrollEnd, 300)
+            this.searchValueDebounced = _.debounce(this.searchValue, 300);
+            this.loadNewImageAtScrollEndDebounced = _.debounce(this.loadNewImageAtScrollEnd, 1000);
         },
         mounted() {
             this.adjustSubHeader();
             window.addEventListener('resize', this.adjustSubHeader);
-            window.addEventListener('scroll', this.loadNewImageAtScrollEnd);
+            window.addEventListener('scroll', this.loadNewImageAtScrollEndDebounced);
         },
         destroyed() {
             window.removeEventListener('resize', this.adjustSubHeader);
-            window.removeEventListener('scroll', this.loadNewImageAtScrollEnd);
+            window.removeEventListener('scroll', this.loadNewImageAtScrollEndDebounced);
         }
     }
 </script>
