@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <Header ref="header" id="header" v-bind:background_img="headerBackground" v-on:searchValue="searchValueDebounced"/>
+        <Header ref="header" id="header" v-bind:background="patate" v-on:searchValue="searchValueDebounced"/>
         <div ref="subHeader" id="subHeader">
             <thumbnail v-bind:key="result.id" v-for="result in currentResult"
                        v-bind:image-info="result"
@@ -13,7 +13,7 @@
 
 <script>
     import Header from "./components/Header";
-    import HeaderBackground from './assets/galaxy-header.jpg'
+    import HeaderBackground from './assets/galaxy-header.jpg';
     import {Api, UnknownError} from "./pixabay/api";
     import Thumbnail from "./components/Thumbnail";
     import _ from 'lodash';
@@ -31,7 +31,7 @@
         },
         data() {
             return {
-                headerBackground: HeaderBackground,
+                patate: HeaderBackground,
                 currentResult: [],
                 subHeaderMarginTop: 0,
                 thumbnailHeightUnity: 'rem',
@@ -40,6 +40,7 @@
         },
         methods: {
             searchValue(value) {
+                window.console.log(value);
                 if (value === '') {
                     this.currentResult = [];
                     return;

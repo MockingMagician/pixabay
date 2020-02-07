@@ -11,15 +11,15 @@
     export default {
         name: "Header",
         props: {
-            background_img: String,
+            background: String,
         },
         computed: {
             headerStyle() {
-                if (!this.background_img) {
+                if (!this.background) {
                     return {}
                 }
                 return {
-                    'background-image': `url('${this.background_img}')`,
+                    'background-image': `url('${this.background}')`,
                 }
             },
             searchValue: {
@@ -31,6 +31,11 @@
                 }
             }
         },
+        created() {
+            if (this.background ===  undefined) {
+                throw  new Error('You should define background image')
+            }
+        }
     }
 </script>
 
