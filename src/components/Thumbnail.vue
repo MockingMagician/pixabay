@@ -74,13 +74,19 @@
         position: relative;
         display: inline-block;
         margin: 0.25rem;
+        transform: scale(1);
+        opacity: 1;
+        transition-property: transform, opacity;
+        transition-duration: 450ms;
+        transition-timing-function: ease-in-out;
     }
 
     #container:hover {
         transform: scale(1.025);
-        transition-property: all;
-        transition-duration: 250ms;
         opacity: 0.9;
+        transition-property: transform, opacity;
+        transition-duration: 450ms;
+        transition-timing-function: ease-in-out;
     }
 
     a, a:hover, a:active {
@@ -93,7 +99,6 @@
     }
 
     #info {
-        opacity: 0;
         width: 100%;
         box-sizing: border-box;
         position: absolute;
@@ -104,8 +109,10 @@
         color: white;
         font-size: 0.75rem;
         z-index: 10;
-        transition: opacity;
+        opacity: 0;
+        transition-property: opacity;
         transition-duration: 250ms;
+        transition-timing-function: ease-in-out;
     }
 
     #info > span {
@@ -114,5 +121,8 @@
 
     #container:hover #info {
         opacity: 1;
+        transition-property: opacity;
+        transition-duration: 250ms;
+        transition-timing-function: ease-in-out;
     }
 </style>
