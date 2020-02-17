@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15",
+    "portfinder": "^1.0.25",
     "vue": "^2.6.10",
     "vuejs-logger": "1.5.4"
   },
