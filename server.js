@@ -6,13 +6,14 @@ const app = express();
 const portFinder = require('portfinder');
 
 portFinder.getPort({
-    port: 8080,    // minimum port
-    stopPort: 9080 // maximum port
+    port: 8080,
+    stopPort: 9080
 }, (error, portFound) => {
     if (error) {
         console.log(error);
         return;
     }
+
     const port = process.env.PORT || portFound;
 
     app.use(history({
@@ -22,6 +23,6 @@ portFinder.getPort({
     app.use(serveStatic(path.join(__dirname, '/dist')));
 
     app.listen(port, () => {
-        console.log('Server started at http://localhost:%s', port)
+        console.log('Server started at http://localhost:%s', port);
     });
 });
